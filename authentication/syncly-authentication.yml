@@ -1,0 +1,19 @@
+generated: '2026-07-21'
+method: searched
+source: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+docs: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+summary:
+  types: [connection-url]
+  api_key_in: [url]
+  oauth2_flows: []
+schemes:
+  - name: WorkspaceMcpConnectionUrl
+    type: connection-url
+    in: url
+    description: >-
+      Programmatic access to a Syncly workspace is authenticated with a
+      per-workspace MCP connection URL copied from workspace settings
+      (General > MCP URL panel). The URL carries a workspace-scoped token;
+      it must be kept secret and is not shared externally. There is no public
+      REST/OpenAPI API, API key issuance flow, or OAuth surface documented.
+    sources: [https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients]

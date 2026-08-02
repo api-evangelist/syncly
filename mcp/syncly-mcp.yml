@@ -1,0 +1,49 @@
+generated: '2026-07-21'
+method: searched
+source: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+status: published
+server:
+  name: syncly
+  transport: http
+  # The MCP connection URL is issued PER WORKSPACE from Syncly workspace
+  # settings (General > MCP URL panel). There is no single fixed public
+  # endpoint; each workspace copies its own authenticated connection URL.
+  # Docs: do not share the connection URL externally.
+  url: null
+  hosted: true
+  remote: true
+auth:
+  # Authentication is carried by the per-workspace MCP connection URL
+  # (workspace-scoped token embedded in the URL). No separate API key/OAuth
+  # step is documented.
+  model: workspace-connection-url
+clients_documented:
+  - Claude
+  - ChatGPT
+  - Cursor
+  - Claude Desktop
+  - n8n
+  - Notion
+  - Slack
+  - Lovable
+  - Sheets
+# Tool surface described in the product/MCP docs. Exact tool names are not
+# published (the server is workspace-gated and cannot be introspected without
+# a workspace connection URL); these are the documented capabilities.
+tools:
+  - name: monitor_trends
+    description: Track mention volume, sentiment, and spikes for a brand/topic/Query.
+  - name: benchmark_competitors
+    description: Compare share of voice and sentiment against competitor brands.
+  - name: discover_creators
+    description: Find creators/influencers across social video platforms.
+  - name: analyze_content_performance
+    description: Analyze content and campaign performance metrics.
+  - name: search_conversations
+    description: Search conversations across TikTok, Reels, and Shorts.
+  - name: generate_report
+    description: Generate analysis reports from workspace data.
+notes: |
+  Syncly's programmatic surface is its hosted remote MCP server; there is no
+  public REST/OpenAPI developer API. The MCP connector works with any AI
+  client that supports remote MCP connectors.
