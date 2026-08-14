@@ -13,16 +13,17 @@ description: >-
   hosted remote MCP connector (Claude, ChatGPT, Cursor, and more) rather than a
   public REST API.
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: freemium
+  onboarding: self-serve
   trial: false
-  try_now: false
+  try_now: true
   public: false
-  label: Unknown
-  confidence: low
+  label: Freemium · Self-serve signup
+  confidence: high
   source:
+  - plans
   - authentication
-  generated: '2026-07-22'
+  generated: '2026-08-13'
   method: derived
 image: https://framerusercontent.com/images/eVsReqyksUv6paQaME2J7epX8.png
 url: https://raw.githubusercontent.com/api-evangelist/syncly/refs/heads/main/apis.yml
@@ -34,7 +35,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-13'
 tags:
 - Company
 - Social Intelligence
@@ -45,13 +46,51 @@ tags:
 - Analytics
 - Artificial Intelligence
 - MCP
-apis: []
+apis:
+- name: Syncly Social MCP Server
+  description: >-
+    Syncly's only programmatic surface. A hosted remote Model Context Protocol server that
+    exposes a connected Syncly workspace — TikTok, Reels and Shorts social listening, creator
+    discovery, competitor benchmarking and reporting — to any AI client that supports remote
+    MCP connectors. Agents POST JSON-RPC 2.0 over MCP Streamable HTTP to
+    https://mcp.syncly.app/mcp with an OAuth 2.1 bearer token carrying the syncly:read scope.
+    The server publishes RFC 9728 protected-resource metadata pointing at its authorization
+    server at https://social-server.syncly.app, which publishes RFC 8414 metadata with dynamic
+    client registration and PKCE (S256). A FastAPI-generated OpenAPI 3.1.0 document is served
+    at the host root, covering the discovery and health endpoints; the product tools themselves
+    are behind the OAuth gate and tools/list returns 401 to anonymous callers.
+  humanURL: https://syncly.app/social/mcp
+  baseURL: https://mcp.syncly.app
+  image: https://framerusercontent.com/images/eVsReqyksUv6paQaME2J7epX8.png
+  tags:
+  - MCP
+  - Social Intelligence
+  - Social Listening
+  - Creator Marketing
+  - Artificial Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/syncly-social-mcp-openapi.json
+  - type: MCPServer
+    url: mcp/syncly-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/syncly-tool-crosswalk.yml
+  - type: Overlay
+    url: overlays/syncly-social-mcp-overlay.yaml
+  - type: Documentation
+    url: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+  - type: Authentication
+    url: authentication/syncly-authentication.yml
+  - type: OAuthScopes
+    url: scopes/syncly-scopes.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/syncly-agentic-access.yml
 - type: Website
   url: https://syncly.app
 - type: DeveloperPortal
@@ -86,8 +125,30 @@ common:
   url: security/syncly-vulnerability-disclosure.yml
 - type: Security
   url: https://syncly.app/security
+- type: OpenAPI
+  url: openapi/syncly-social-mcp-openapi.json
+- type: ToolCrosswalk
+  url: mcp/syncly-tool-crosswalk.yml
+- type: WellKnown
+  url: well-known/syncly-well-known.yml
+- type: OAuthScopes
+  url: scopes/syncly-scopes.yml
+- type: Conventions
+  url: conventions/syncly-conventions.yml
+- type: ErrorCatalog
+  url: errors/syncly-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/syncly-lifecycle.yml
+- type: Plans
+  url: plans/syncly-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/syncly-rate-limits.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Overlay
+  url: overlays/syncly-social-mcp-overlay.yaml
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 6
+  artifacts_added: 16
   pass: local-v1
