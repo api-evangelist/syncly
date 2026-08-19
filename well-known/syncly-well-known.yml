@@ -1,0 +1,110 @@
+generated: '2026-08-13'
+method: probed
+source: live GET probes of every Syncly host in apis.yml plus the MCP and authorization-server hosts
+note: >-
+  Two real documents were returned. The MCP resource host mcp.syncly.app serves RFC 9728
+  OAuth Protected Resource Metadata, which names https://social-server.syncly.app as the
+  authorization server; that host in turn serves RFC 8414 OAuth Authorization Server
+  Metadata. Neither was recorded in the previous enrichment round. The marketing host
+  syncly.app (Framer) and the API host api.syncly.app return 404 for every /.well-known/
+  path. creator.syncly.app is a Vercel single-page app that answers HTTP 200 with an HTML
+  shell for EVERY /.well-known/ path, including agent-card.json and security.txt; those are
+  recorded as soft-200 misses, not documents.
+hosts:
+- host: https://mcp.syncly.app
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: syncly-oauth-protected-resource.json
+    spec: RFC 9728
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    content_type: application/json
+    spec: RFC 9728
+    note: identical body to the root path; saved once as syncly-oauth-protected-resource.json
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/openai-apps-challenge
+    status: 200
+    content_type: text/plain
+    spec: OpenAI Apps domain-verification challenge
+    note: >-
+      Returns a bare verification token, not a discovery document. Recorded as evidence that
+      Syncly registered the MCP server as a ChatGPT App; the token itself is not saved.
+- host: https://social-server.syncly.app
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: syncly-oauth-authorization-server.json
+    spec: RFC 8414
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://syncly.app
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.syncly.app
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://creator.syncly.app
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all returned an HTML shell, not a document. Treated as a miss.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all returned an HTML shell, not a document. Treated as a miss.
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    hit: false
+    note: SPA catch-all returned an HTML shell, not a document. Treated as a miss.
+security_txt: false
+security_txt_note: >-
+  No RFC 9116 security.txt is served on any Syncly host. Syncly does publish a responsible
+  disclosure contact in prose at https://syncly.app/security (hello@deepbluedot.io); that is
+  captured in security/syncly-vulnerability-disclosure.yml, not here.
+checked: '2026-08-13'

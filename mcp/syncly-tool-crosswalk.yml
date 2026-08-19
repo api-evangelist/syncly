@@ -1,0 +1,73 @@
+generated: '2026-08-13'
+method: derived
+source: mcp/syncly-mcp.yml, openapi/syncly-social-mcp-openapi.json
+summary: >-
+  Syncly's MCP server and Syncly's OpenAPI are not two projections of one data core — they are
+  two different layers of the same process. The OpenAPI describes only the server's discovery
+  and health plumbing (four unauthenticated GETs); every product capability lives behind the
+  JSON-RPC /mcp endpoint, whose tool list is OAuth-gated. The crosswalk is therefore empty by
+  construction, and that emptiness is the finding: there is no REST path to any Syncly data,
+  so the MCP connection is the only way an agent reaches this provider.
+surfaces:
+  openapi:
+    file: openapi/syncly-social-mcp-openapi.json
+    url: https://mcp.syncly.app/openapi.json
+    gated: false
+    operations: 4
+    note: FastAPI-generated infrastructure spec. No product schemas, no securitySchemes, no servers block.
+  mcp:
+    url: https://mcp.syncly.app/mcp
+    gated: true
+    gate: OAuth 2.1 bearer, scope syncly:read; tools/list returns HTTP 401 / JSON-RPC -32001
+    note: Tool names and inputSchemas cannot be enumerated without an authenticated workspace token.
+  graphql: null
+crosswalk: []
+crosswalk_note: >-
+  No row can be written. Binding a tool to a backing operation requires knowing the tool's real
+  name, and Syncly discloses none — the product page publishes six prose capability labels
+  ("Monitor trends", "Compare competitors", …), not tool identifiers. Inventing snake_case tool
+  names from those labels would fabricate the exact identifiers an agent calls, so none are
+  asserted here or in mcp/syncly-mcp.yml.
+mcp_only:
+- tool: null
+  label: Monitor trends
+  reason: No public REST operation. Backed by the gated MCP server; wire-level tool name undisclosed.
+- tool: null
+  label: Compare competitors
+  reason: No public REST operation. Backed by the gated MCP server; wire-level tool name undisclosed.
+- tool: null
+  label: Discover creators
+  reason: No public REST operation. Backed by the gated MCP server; wire-level tool name undisclosed.
+- tool: null
+  label: Mine winning content
+  reason: No public REST operation. Backed by the gated MCP server; wire-level tool name undisclosed.
+- tool: null
+  label: Search every conversation
+  reason: No public REST operation. Backed by the gated MCP server; wire-level tool name undisclosed.
+- tool: null
+  label: Report in seconds
+  reason: No public REST operation. Backed by the gated MCP server; wire-level tool name undisclosed.
+rest_only:
+- capability: OAuth discovery
+  operations:
+  - oauth_protected_resource__well_known_oauth_protected_resource_get
+  - oauth_protected_resource__well_known_oauth_protected_resource_mcp_get
+  note: RFC 9728 protected-resource metadata. Consumed by MCP clients during the auth handshake, not exposed as a tool.
+- capability: Health
+  operations:
+  - health_check_health_get
+  note: Returns {"status":"ok"}. Unauthenticated liveness probe.
+- capability: Platform verification
+  operations:
+  - openai_apps_challenge__well_known_openai_apps_challenge_get
+  note: OpenAI Apps domain-verification challenge. Evidence the server is registered as a ChatGPT App.
+coverage:
+  published_capabilities: 6
+  tools_named_by_provider: 0
+  tools_bound_to_rest: 0
+  mcp_only: 6
+  rest_operations_total: 4
+  rest_operations_with_a_tool: 0
+  note: >-
+    Zero overlap. Re-run this crosswalk if Syncly ever publishes a tool reference or opens
+    tools/list to anonymous introspection.

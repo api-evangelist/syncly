@@ -1,0 +1,81 @@
+generated: '2026-08-13'
+method: searched
+source: https://syncly.app/creator/pricing
+also: https://syncly.app/pricing
+currency: USD
+plan_count: 3
+product: Syncly Social
+scope_note: >-
+  These tiers cover Influencer Discovery only. Syncly states on the same page that Social
+  Listening is not self-serve and requires contacting the sales team. The Voice-of-Customer
+  product (syncly.app/voc) publishes no public price at all. No plan on this page mentions API
+  or MCP access as a metered entitlement, so there is no published price for the MCP surface.
+billing_periods: [monthly, yearly]
+yearly_discount: Save $60/month with the yearly plan (the page also shows a $29/month saving on one variant)
+plans:
+- name: Trial
+  price: 0
+  currency: USD
+  period: month
+  price_display: $0 /Month
+  cta: Start Free Trial
+  credit_card_required: false
+  summary: Explore social listening and influencer discovery — free, no credit card required.
+  included:
+  - Unlimited search
+  - 100 creators per search
+  - 1 shortlist
+  variant_included:
+  - 1 Custom query
+  - 100 Most Recent Posts
+  - 1 shortlist
+- name: Basic
+  price: 120
+  currency: USD
+  period: month
+  price_display: $120 /Month
+  cta: Start Free Trial
+  summary: Search, save, and export — built for marketers who move fast.
+  included:
+  - Unlimited search
+  - 200 creators per search
+  - 200 creators export per month
+  - 3 shortlists
+  variant_included:
+  - 1 Custom query
+  - 100 Most recent posts
+  - 200 creators export per month
+  - 3 shortlists
+- name: Enterprise
+  price: null
+  price_display: Custom
+  currency: USD
+  period: null
+  cta: Contact Sales
+  summary: >-
+    Get 500+ creator results per search, 1,000+ monthly exports, and a plan tailored to your
+    needs.
+  included:
+  - Unlimited search
+  - More custom queries
+  - 500+ creators per search
+  - 1,000+ creators export
+  - Unlimited shortlists
+  - Full access to AI features
+  - Multiple seats
+  - 24/7 priority support
+overage: null
+overage_note: >-
+  No overage pricing is published. Quotas read as hard caps on the tier rather than metered
+  units with a published per-unit price.
+variant_note: >-
+  The pricing page renders three near-identical plan tables (monthly/yearly toggles plus a
+  duplicated block); where the quota wording differs between renders, both are recorded above
+  as included/variant_included rather than picking one. Nothing here is inferred.
+x-evidence:
+- url: https://syncly.app/creator/pricing
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://syncly.app/pricing
+  http_status: 200
+  fetched: '2026-08-13'

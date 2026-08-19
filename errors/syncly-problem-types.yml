@@ -1,0 +1,50 @@
+generated: '2026-08-13'
+method: probed
+source: live POST to https://mcp.syncly.app/mcp
+format: jsonrpc-2.0
+format_note: >-
+  Not RFC 9457. Syncly's programmatic surface is an MCP server, so errors are JSON-RPC 2.0
+  error objects, not application/problem+json. The published OpenAPI
+  (openapi/syncly-social-mcp-openapi.json) declares no 4xx or 5xx response at all on any of its
+  four operations, so nothing could be derived from the spec; the single entry below was
+  observed on a live request.
+envelope:
+  jsonrpc: '2.0'
+  error:
+    code: integer
+    message: string
+    data: object
+  id: matches the request id, or null when the request could not be attributed
+problems:
+- code: -32001
+  http_status: 401
+  title: Unauthorized
+  message: Unauthorized
+  meaning: >-
+    The request carried no valid OAuth access token for the Syncly Social MCP resource. Returned
+    for every JSON-RPC method including initialize and tools/list.
+  challenge_key: mcp/www_authenticate
+  challenge_value: >-
+    Bearer resource_metadata="https://mcp.syncly.app/.well-known/oauth-protected-resource/mcp",
+    scope="syncly:read", error="invalid_token", error_description="Authentication is required"
+  remediation: >-
+    Fetch the resource metadata named in the challenge, discover the authorization server at
+    https://social-server.syncly.app, register the client dynamically, complete an
+    authorization-code flow with PKCE requesting scope syncly:read, and retry with the access
+    token in the Authorization header.
+  observed: '2026-08-13'
+  source_operation: null
+  source_note: POST https://mcp.syncly.app/mcp with method tools/list and with method initialize
+coverage:
+  problems_documented_by_provider: 0
+  problems_observed: 1
+  note: >-
+    Syncly publishes no error reference page. The documentation index (llms.txt) contains a
+    troubleshooting FAQ written for end users in the web app, not for API or MCP callers, and
+    it names no error codes. Authenticated error codes cannot be enumerated without a workspace
+    token.
+x-evidence:
+- url: https://mcp.syncly.app/mcp
+  method: POST
+  http_status: 401
+  fetched: '2026-08-13'

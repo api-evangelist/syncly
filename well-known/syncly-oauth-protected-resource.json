@@ -1,0 +1,1 @@
+{"resource":"https://mcp.syncly.app/mcp","authorization_servers":["https://social-server.syncly.app"],"scopes_supported":["syncly:read"],"bearer_methods_supported":["header"]}

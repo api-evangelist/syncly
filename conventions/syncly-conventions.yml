@@ -1,0 +1,71 @@
+generated: '2026-08-13'
+method: derived
+source: >-
+  openapi/syncly-social-mcp-openapi.json, well-known/syncly-oauth-authorization-server.json,
+  well-known/syncly-oauth-protected-resource.json, and live probes of https://mcp.syncly.app/mcp
+surface: >-
+  Syncly's only programmatic surface is the Syncly Social MCP Server. The conventions below are
+  therefore MCP/JSON-RPC conventions, not REST ones. Where a section has no published contract
+  it is recorded as null rather than guessed.
+transport:
+  protocol: MCP Streamable HTTP
+  wire_format: JSON-RPC 2.0 over HTTPS POST
+  endpoint: https://mcp.syncly.app/mcp
+  accept: application/json, text/event-stream
+authentication:
+  style: OAuth 2.1 bearer token in the Authorization header
+  discovery: RFC 9728 protected-resource metadata, then RFC 8414 authorization-server metadata
+  client_registration: dynamic (RFC 7591) at https://social-server.syncly.app/oauth/register
+  pkce: required, S256
+  public_clients: token_endpoint_auth_methods_supported is ["none"]
+  scopes: [syncly:read, offline_access]
+  see: authentication/syncly-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No idempotency key, no retry-safety contract, and no de-duplication guidance is published,
+    and none appears in the OpenAPI. Consistent with a read-only surface (the sole resource
+    scope is syncly:read), but the absence is recorded as absence. No Idempotency pointer is
+    emitted in apis.yml.
+pagination:
+  style: null
+  note: >-
+    Not published. The MCP tool schemas that would carry any cursor parameter are OAuth-gated,
+    so pagination cannot be observed without a workspace token.
+field_expansion: null
+metadata: null
+request_tracing:
+  header: null
+  note: >-
+    No request-id or trace header is documented, and none was returned on unauthenticated
+    probes. JSON-RPC correlation is by the caller-supplied "id" member.
+versioning:
+  scheme: server-version
+  current: '0.1.0'
+  source: openapi/syncly-social-mcp-openapi.json info.version
+  mcp_protocol_version: negotiated in the MCP initialize handshake; not published in docs
+  note: >-
+    No URI path version, no version header, and no dated release train. The 0.1.0 server
+    version is the only version identifier Syncly publishes.
+error_envelope:
+  format: JSON-RPC 2.0 error object
+  shape: '{"jsonrpc":"2.0","error":{"code":<int>,"message":<string>,"data":{...}},"id":<id|null>}'
+  auth_challenge: >-
+    On an unauthenticated call the Bearer challenge is carried inside error.data._meta as the
+    key "mcp/www_authenticate" rather than as a top-level WWW-Authenticate response header.
+  see: errors/syncly-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  note: None published or observed. See rate-limits/syncly-rate-limits.yml.
+consent_and_revocation:
+  connect: Syncly app, Settings > My Account > Connected Apps
+  revoke_ui: Revoke button in Connected Apps
+  revoke_endpoint: https://social-server.syncly.app/oauth/revoke
+  see: mcp/syncly-mcp.yml
+cross_links:
+  authentication: authentication/syncly-authentication.yml
+  scopes: scopes/syncly-scopes.yml
+  errors: errors/syncly-problem-types.yml
+  lifecycle: lifecycle/syncly-lifecycle.yml
+  rate_limits: rate-limits/syncly-rate-limits.yml

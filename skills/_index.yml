@@ -1,0 +1,23 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  Grounded in openapi/syncly-social-mcp-openapi.json, the probed OAuth metadata in well-known/,
+  and the live 401 challenge from https://mcp.syncly.app/mcp.
+note: >-
+  Only one skill is packaged. Syncly's product capabilities live behind an OAuth-gated MCP
+  tools/list, so the marquee data flows cannot be grounded in real tool names or operationIds
+  and no skill is written for them. The one flow that IS fully grounded in published artifacts
+  is getting connected in the first place.
+skills:
+- file: syncly-connect-social-mcp.md
+  name: Connect to the Syncly Social MCP server
+  description: >-
+    Discover the authorization server via RFC 9728, register dynamically, run the OAuth 2.1
+    authorization-code flow with PKCE for scope syncly:read, and open an MCP session against
+    https://mcp.syncly.app/mcp.
+  api: openapi/syncly-social-mcp-openapi.json
+  mcp: https://mcp.syncly.app/mcp
+  operations:
+  - oauth_protected_resource__well_known_oauth_protected_resource_mcp_get
+  - oauth_protected_resource__well_known_oauth_protected_resource_get
+  - health_check_health_get

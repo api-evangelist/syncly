@@ -1,0 +1,50 @@
+generated: '2026-08-13'
+method: probed
+source: https://social-server.syncly.app/.well-known/oauth-authorization-server
+docs: null
+docs_note: >-
+  Syncly publishes no scopes/permissions reference page. The scope set below is read from the
+  provider's own RFC 8414 authorization-server metadata and the RFC 9728 protected-resource
+  metadata, which are the authoritative machine-readable declarations. Descriptions are ours,
+  derived from the scope names and the OAuth specs they come from, and are marked as such.
+schemes:
+- name: SynclySocialOAuth
+  source: https://social-server.syncly.app/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://social-server.syncly.app/oauth/authorize
+    tokenUrl: https://social-server.syncly.app/oauth/token
+scopes:
+- scope: syncly:read
+  description: >-
+    Read access to the connected Syncly workspace. This is the only resource scope Syncly
+    declares, and it is the scope the MCP server names in its 401 challenge. Description is
+    API Evangelist's reading of the scope name, not provider-published text.
+  description_source: derived
+  flows: [authorizationCode]
+  sources:
+  - https://social-server.syncly.app/.well-known/oauth-authorization-server
+  - https://mcp.syncly.app/.well-known/oauth-protected-resource
+- scope: offline_access
+  description: >-
+    Standard OpenID Connect / OAuth 2.0 scope requesting a refresh token so the client can
+    renew access without a fresh user consent. Declared by the authorization server but not
+    listed in the protected-resource metadata.
+  description_source: rfc6749-oidc-core
+  flows: [authorizationCode]
+  sources:
+  - https://social-server.syncly.app/.well-known/oauth-authorization-server
+summary:
+  scope_count: 2
+  resource_scope_count: 1
+  write_scopes: 0
+  note: >-
+    Syncly's OAuth surface is read-only. There is no declared write, admin, or per-resource
+    scope, which matches an MCP server whose published capabilities are all analytical reads.
+x-evidence:
+- url: https://social-server.syncly.app/.well-known/oauth-authorization-server
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/.well-known/oauth-protected-resource
+  http_status: 200
+  fetched: '2026-08-13'

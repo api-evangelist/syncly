@@ -1,0 +1,64 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://syncly-a76215af.mintlify.app/llms.txt, https://syncly.app/sitemap.xml,
+  openapi/syncly-social-mcp-openapi.json
+versioning:
+  scheme: server-version
+  current: '0.1.0'
+  docs: null
+  note: >-
+    The only version Syncly publishes is info.version 0.1.0 in the Syncly Social MCP Server
+    OpenAPI. There is no URI path version, no version header, no dated version train, and no
+    versioning policy page.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation or sunset policy is published, and no RFC 8594 Sunset/Deprecation header was
+    returned on any probe. No operation in the published OpenAPI is marked deprecated.
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No SLA or uptime commitment is published. The Enterprise tier advertises "24/7 Priority
+    support" on the pricing page but names no availability target.
+status_page: null
+status_page_note: >-
+  No status page is published or linked. syncly.app/status returns 404, status.syncly.app does
+  not resolve, and the sitemap contains no status URL. A Statuspage does exist at
+  https://syncly.statuspage.io (HTTP 200, page name "Syncly"), but its API summary returns only
+  Atlassian's two default placeholder components, named literally "API (example)" and
+  "Management Portal (example)", with zero incidents and a last update of 2025-04-13. It is an
+  unconfigured default page that Syncly does not link from any of its own properties, so it is
+  not attributed and NO StatusPage pointer is emitted.
+changelog:
+  url: null
+  note: >-
+    No changelog, release notes, or what's-new page. syncly.app/changelog and
+    /en/changelog on the docs host both return 404, and the sitemap lists none. The blog at
+    https://syncly.app/blog is market commentary and trend reporting, not product releases.
+deprecated_operations: []
+maturity:
+  signals:
+  - MCP server version 0.1.0
+  - No public REST API
+  - No published changelog, SLA, deprecation policy, or status page
+  reading: >-
+    An early-stage agent surface. The OAuth and MCP discovery plumbing is standards-correct and
+    complete, but none of the operational-transparency scaffolding around it exists yet.
+x-evidence:
+- url: https://syncly.app/changelog
+  http_status: 404
+  fetched: '2026-08-13'
+- url: https://syncly.app/status
+  http_status: 404
+  fetched: '2026-08-13'
+- url: https://syncly.statuspage.io/api/v2/summary.json
+  http_status: 200
+  fetched: '2026-08-13'
+  note: default "(example)" components only; not attributed to this provider
+- url: https://syncly.app/sitemap.xml
+  http_status: 200
+  fetched: '2026-08-13'

@@ -1,19 +1,73 @@
-generated: '2026-07-21'
-method: searched
-source: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+generated: '2026-08-13'
+method: probed
+source: https://social-server.syncly.app/.well-known/oauth-authorization-server
 docs: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+supersedes: >-
+  The 2026-07-21 round recorded a "workspace MCP connection URL" scheme and stated that no
+  OAuth surface was documented. That was wrong. Syncly runs a full OAuth 2.1 authorization
+  server at https://social-server.syncly.app, discoverable per RFC 8414, and the MCP resource
+  server advertises it per RFC 9728. Corrected here from live probes.
 summary:
-  types: [connection-url]
-  api_key_in: [url]
-  oauth2_flows: []
+  types: [oauth2]
+  api_key_in: []
+  oauth2_flows: [authorizationCode]
+  bearer_methods_supported: [header]
+  dynamic_client_registration: true
+  pkce_required_methods: [S256]
 schemes:
-  - name: WorkspaceMcpConnectionUrl
-    type: connection-url
-    in: url
-    description: >-
-      Programmatic access to a Syncly workspace is authenticated with a
-      per-workspace MCP connection URL copied from workspace settings
-      (General > MCP URL panel). The URL carries a workspace-scoped token;
-      it must be kept secret and is not shared externally. There is no public
-      REST/OpenAPI API, API key issuance flow, or OAuth surface documented.
-    sources: [https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients]
+- name: SynclySocialOAuth
+  type: oauth2
+  description: >-
+    Programmatic access to a Syncly workspace goes through the Syncly Social MCP server at
+    https://mcp.syncly.app/mcp, which is an OAuth 2.1 protected resource. Clients discover the
+    authorization server from the resource metadata document, register dynamically, run an
+    authorization-code flow with PKCE (S256), and present the resulting access token as an
+    HTTP Authorization Bearer header. Token endpoint auth method is "none", which is the public
+    client profile expected of MCP clients. In practice end users trigger this flow from
+    Settings > My Account > Connected Apps inside the Syncly app rather than pasting a URL.
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://social-server.syncly.app/oauth/authorize
+    tokenUrl: https://social-server.syncly.app/oauth/token
+    revocationUrl: https://social-server.syncly.app/oauth/revoke
+    registrationUrl: https://social-server.syncly.app/oauth/register
+    scopes:
+      syncly:read: Read access to the connected Syncly workspace
+      offline_access: Issue a refresh token so the client can renew access without re-consent
+  sources:
+  - https://mcp.syncly.app/.well-known/oauth-protected-resource
+  - https://social-server.syncly.app/.well-known/oauth-authorization-server
+authorization_server:
+  issuer: https://social-server.syncly.app
+  metadata: well-known/syncly-oauth-authorization-server.json
+  grant_types_supported: [authorization_code, refresh_token]
+  response_types_supported: [code]
+  code_challenge_methods_supported: [S256]
+  token_endpoint_auth_methods_supported: [none]
+  client_id_metadata_document_supported: true
+protected_resource:
+  resource: https://mcp.syncly.app/mcp
+  metadata: well-known/syncly-oauth-protected-resource.json
+  authorization_servers: [https://social-server.syncly.app]
+  scopes_supported: [syncly:read]
+unauthenticated_behavior:
+  http_status: 401
+  body: JSON-RPC 2.0 error object, code -32001, message "Unauthorized"
+  challenge_header: mcp/www_authenticate carried inside the JSON-RPC error _meta block
+  note: >-
+    The Bearer challenge is delivered in the JSON-RPC error payload rather than a plain
+    WWW-Authenticate response header, which is the MCP-specific shape of the RFC 9728 challenge.
+no_rest_api: >-
+  Syncly publishes no general-purpose REST API and no API-key issuance flow. The only
+  machine-readable contract on its own hosts is openapi/syncly-social-mcp-openapi.json, which
+  documents the MCP server's discovery and health endpoints, not the product data surface.
+x-evidence:
+- url: https://social-server.syncly.app/.well-known/oauth-authorization-server
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/.well-known/oauth-protected-resource
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/mcp
+  http_status: 401
+  fetched: '2026-08-13'

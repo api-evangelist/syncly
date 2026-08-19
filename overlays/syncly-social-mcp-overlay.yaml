@@ -1,0 +1,60 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Syncly Social MCP Server
+  version: 1.0.0
+extends: openapi/syncly-social-mcp-openapi.json
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >-
+  Derived from live probes of https://mcp.syncly.app. The upstream document is saved verbatim
+  and is never mutated; every enhancement below is expressed as an overlay action.
+actions:
+- target: $
+  description: >-
+    The upstream spec ships no servers block, so a consumer cannot tell which host it describes.
+    Add the host it was fetched from and which is named as the OAuth protected resource.
+  update:
+    servers:
+    - url: https://mcp.syncly.app
+      description: Syncly Social MCP Server (host confirmed by fetch and by RFC 9728 resource metadata)
+- target: $.info
+  description: Record provenance, the real agent endpoint, and what this spec does and does not cover.
+  update:
+    description: >-
+      Auto-generated infrastructure specification for the Syncly Social MCP Server. It documents
+      the server's OAuth discovery, health and platform-verification endpoints only. Syncly's
+      product capabilities are NOT in this document — they are exposed as MCP tools over
+      JSON-RPC at https://mcp.syncly.app/mcp, which requires an OAuth 2.1 bearer token with
+      scope syncly:read.
+    x-apievangelist-harvested: '2026-08-13'
+    x-apievangelist-source: https://mcp.syncly.app/openapi.json
+    x-mcp-endpoint: https://mcp.syncly.app/mcp
+    x-authorization-server: https://social-server.syncly.app
+- target: $.paths['/health'].get
+  description: Tag and clarify the liveness probe.
+  update:
+    tags: [Health]
+    description: Unauthenticated liveness check. Observed response body is {"status":"ok"}.
+- target: $.paths['/.well-known/oauth-protected-resource'].get
+  description: Tag and name the standard this endpoint implements.
+  update:
+    tags: [Discovery]
+    description: >-
+      RFC 9728 OAuth 2.0 Protected Resource Metadata. Names the protected resource
+      (https://mcp.syncly.app/mcp), its authorization server
+      (https://social-server.syncly.app), supported scopes (syncly:read) and bearer methods.
+- target: $.paths['/.well-known/oauth-protected-resource/mcp'].get
+  description: Tag the per-resource variant and note it is byte-identical to the root path.
+  update:
+    tags: [Discovery]
+    description: >-
+      RFC 9728 protected-resource metadata for the /mcp resource. Returns the same document as
+      the root /.well-known/oauth-protected-resource path. This is the URL named in the
+      mcp/www_authenticate challenge returned on an unauthenticated JSON-RPC call.
+- target: $.paths['/.well-known/openai-apps-challenge'].get
+  description: Explain the non-obvious verification endpoint.
+  update:
+    tags: [Discovery]
+    description: >-
+      OpenAI Apps domain-verification challenge. Returns a bare verification token, confirming
+      the Syncly Social MCP Server is registered as a ChatGPT App.

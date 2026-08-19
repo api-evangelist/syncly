@@ -1,0 +1,32 @@
+generated: '2026-08-13'
+method: searched
+source: https://syncly-a76215af.mintlify.app/llms.txt
+limit_count: 0
+note: >-
+  Syncly publishes no rate limits for its MCP surface. The full documentation index (llms.txt,
+  15 pages) contains no rate-limit, quota-per-second, throttling, or 429 page; the MCP product
+  page and the connect-MCP-clients guide state none; and the published OpenAPI declares no
+  429 response and no rate-limit headers. An honest zero, not an unchecked field.
+limits: []
+response_headers:
+  observed: []
+  note: >-
+    No X-RateLimit-*, RateLimit-*, or Retry-After header was returned on any unauthenticated
+    probe of https://mcp.syncly.app/mcp, https://mcp.syncly.app/health, or
+    https://mcp.syncly.app/openapi.json. Authenticated behavior is unknown; the surface is
+    OAuth-gated.
+exhaustion_status: null
+plan_quotas:
+  note: >-
+    Syncly does publish per-tier quotas, but they are account entitlements rather than request
+    rate limits and they are captured in plans/syncly-plans-pricing.yml: creators per search
+    (100 / 200 / 500+), creators exported per month (200 / 1,000+), custom queries, and
+    shortlists. None of these are expressed as a window, a burst, or a header.
+  see: plans/syncly-plans-pricing.yml
+x-evidence:
+- url: https://syncly-a76215af.mintlify.app/llms.txt
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/mcp
+  http_status: 401
+  fetched: '2026-08-13'

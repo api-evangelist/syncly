@@ -1,0 +1,53 @@
+generated: '2026-08-13'
+method: searched
+source: registry.npmjs.org, pypi.org, api.github.com, https://syncly-a76215af.mintlify.app/llms.txt
+package_count: 0
+official_package_count: 0
+packages: []
+note: >-
+  Syncly ships no first-party client library in any registry. Checked npm (syncly, @syncly/sdk,
+  @syncly/mcp), PyPI (syncly), and the full documentation index; nothing first-party exists and
+  the docs never mention an SDK. Consistent with a provider whose only surface is a hosted
+  remote MCP server reached over OAuth — there is nothing for an SDK to wrap.
+  No SDKs pointer is emitted in apis.yml.
+near_misses:
+- registry: npm
+  name: syncly
+  url: https://www.npmjs.com/package/syncly
+  version: 1.0.0
+  published: null
+  official: false
+  reason: >-
+    Name-squat placeholder. Its own description reads "WIP module. Available soon~" and it has
+    a single 1.0.0 version. Unrelated to Deep BlueDot, Inc. Publish date not exposed by the
+    registry packument for this package; recorded as null rather than guessed.
+- registry: github
+  name: github.com/Syncly
+  url: https://github.com/Syncly
+  official: false
+  reason: >-
+    A different Syncly. The GitHub org of that name (id 16089331) is an Estonian "suite of
+    applications for syncing things" created 2015-11-30, whose five repos are MusicSync
+    Android/web/backend clients last pushed in January 2016. Not this company, and no
+    GitHubOrganization pointer is emitted for it.
+- registry: github
+  name: rimmade/syncly-dataset-mcp
+  official: false
+  reason: Third-party project matching the name; not published by Deep BlueDot, Inc.
+registries_checked:
+- {registry: npm, queried: ['syncly', '@syncly/sdk', '@syncly/mcp'], first_party_found: 0}
+- {registry: pypi, queried: ['syncly'], first_party_found: 0}
+- {registry: github, queried: ['orgs/syncly', 'search syncly mcp'], first_party_found: 0}
+x-evidence:
+- url: https://registry.npmjs.org/syncly
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://registry.npmjs.org/@syncly/sdk
+  http_status: 404
+  fetched: '2026-08-13'
+- url: https://pypi.org/pypi/syncly/json
+  http_status: 404
+  fetched: '2026-08-13'
+- url: https://api.github.com/orgs/syncly
+  http_status: 200
+  fetched: '2026-08-13'

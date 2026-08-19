@@ -1,49 +1,108 @@
-generated: '2026-07-21'
-method: searched
-source: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+generated: '2026-08-13'
+method: probed
+source: https://mcp.syncly.app/mcp
+docs: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+marketing: https://syncly.app/social/mcp
 status: published
 server:
-  name: syncly
+  name: Syncly Social MCP Server
+  version: 0.1.0
   transport: http
-  # The MCP connection URL is issued PER WORKSPACE from Syncly workspace
-  # settings (General > MCP URL panel). There is no single fixed public
-  # endpoint; each workspace copies its own authenticated connection URL.
-  # Docs: do not share the connection URL externally.
-  url: null
+  protocol: MCP Streamable HTTP (JSON-RPC 2.0)
+  url: https://mcp.syncly.app/mcp
   hosted: true
   remote: true
+  openapi: openapi/syncly-social-mcp-openapi.json
+deployment:
+  mode: remote
+  endpoint: https://mcp.syncly.app/mcp
+  auth: oauth
+  verified: probed
+  checked: '2026-08-13'
+  note: >-
+    Hosted remote server only. Syncly publishes no npm/PyPI stdio package and documents no
+    local install; an agent reaches this surface by POSTing to the endpoint above with an
+    OAuth bearer token. Previous rounds recorded url: null, which understated a genuinely
+    reachable agent surface.
 auth:
-  # Authentication is carried by the per-workspace MCP connection URL
-  # (workspace-scoped token embedded in the URL). No separate API key/OAuth
-  # step is documented.
-  model: workspace-connection-url
+  model: oauth2
+  spec: OAuth 2.1 with PKCE, RFC 9728 protected-resource metadata, RFC 8414 authorization-server metadata
+  authorization_server: https://social-server.syncly.app
+  scopes: [syncly:read, offline_access]
+  bearer_methods_supported: [header]
+  dynamic_client_registration: true
+  see: authentication/syncly-authentication.yml
+tools_introspection:
+  attempted: true
+  method: POST tools/list and initialize with Accept application/json, text/event-stream
+  http_status: 401
+  jsonrpc_error_code: -32001
+  www_authenticate: >-
+    Bearer resource_metadata="https://mcp.syncly.app/.well-known/oauth-protected-resource/mcp",
+    scope="syncly:read", error="invalid_token", error_description="Authentication is required"
+  result: gated
+  note: >-
+    The live tool list and every tool inputSchema are OAuth-gated and require an authenticated
+    workspace token. No tool names or schemas are recorded here as fact. The capabilities below
+    are what Syncly publishes in prose on its own MCP page; they are NOT tool identifiers and
+    must not be treated as such.
+published_capabilities:
+  source: https://syncly.app/social/mcp
+  note: >-
+    Verbatim capability labels and descriptions from Syncly's MCP product page. Syncly calls
+    these "skills available to your agent through one connection". They do not disclose the
+    wire-level tool names.
+  capabilities:
+  - label: Monitor trends
+    description: Track mention volume, sentiment, and spikes across every video platform in real time.
+  - label: Compare competitors
+    description: Benchmark share of voice and sentiment against the brands you compete with.
+  - label: Discover creators
+    description: Surface high-engagement creators already talking about your space.
+  - label: Mine winning content
+    description: Pull the hooks and strategies behind top-performing videos.
+  - label: Search every conversation
+    description: Ask anything and get answers straight from raw VOC.
+  - label: Report in seconds
+    description: Turn a month of social data into a client-ready brief.
 clients_documented:
-  - Claude
-  - ChatGPT
-  - Cursor
-  - Claude Desktop
-  - n8n
-  - Notion
-  - Slack
-  - Lovable
-  - Sheets
-# Tool surface described in the product/MCP docs. Exact tool names are not
-# published (the server is workspace-gated and cannot be introspected without
-# a workspace connection URL); these are the documented capabilities.
-tools:
-  - name: monitor_trends
-    description: Track mention volume, sentiment, and spikes for a brand/topic/Query.
-  - name: benchmark_competitors
-    description: Compare share of voice and sentiment against competitor brands.
-  - name: discover_creators
-    description: Find creators/influencers across social video platforms.
-  - name: analyze_content_performance
-    description: Analyze content and campaign performance metrics.
-  - name: search_conversations
-    description: Search conversations across TikTok, Reels, and Shorts.
-  - name: generate_report
-    description: Generate analysis reports from workspace data.
-notes: |
-  Syncly's programmatic surface is its hosted remote MCP server; there is no
-  public REST/OpenAPI developer API. The MCP connector works with any AI
-  client that supports remote MCP connectors.
+- Claude
+- ChatGPT
+- Cursor
+- n8n
+- Notion
+- Slack
+- Lovable
+- Google Sheets
+connection_flow:
+  source: https://syncly-a76215af.mintlify.app/en/start/connect-mcp-clients
+  steps:
+  - Log in to Syncly and open Settings via the gear icon in the lower-left corner.
+  - Open My Account and scroll to the Connected Apps section.
+  - Find the AI client (Claude or ChatGPT) and select Connect.
+  - Sign in to the AI client account when prompted.
+  - Review the requested permissions and approve the connection.
+  - Return to Syncly and confirm the client shows as connected.
+  - Open a new conversation in the client before testing.
+  revocation: Select Revoke in Connected Apps to remove an app's access to Syncly.
+  note: >-
+    The documented path is a provider-initiated connect flow from inside the Syncly app, not a
+    URL a user pastes into a client. Syncly does not publish the endpoint in its docs; the
+    endpoint recorded above was established by probing mcp.syncly.app directly.
+chatgpt_apps:
+  registered: true
+  evidence: GET https://mcp.syncly.app/.well-known/openai-apps-challenge returned HTTP 200 with a verification token
+x-evidence:
+- url: https://mcp.syncly.app/mcp
+  method: POST
+  http_status: 401
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/.well-known/oauth-protected-resource/mcp
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/openapi.json
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://syncly.app/social/mcp
+  http_status: 200
+  fetched: '2026-08-13'

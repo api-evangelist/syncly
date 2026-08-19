@@ -1,22 +1,84 @@
-generated: '2026-07-21'
-method: searched
-source: https://syncly.app/security
+generated: '2026-08-13'
+method: probed
+source: >-
+  https://syncly.app/security (compliance claims),
+  https://social-server.syncly.app/.well-known/oauth-authorization-server and
+  https://mcp.syncly.app/.well-known/oauth-protected-resource (standards conformance, probed)
 standards:
-  - id: soc2-type-ii
-    conforms: true
-    evidence: >-
-      Security page states "SOC 2 Type II compliant" with continuous automated
-      monitoring and annual third-party penetration testing.
-  - id: gdpr
-    conforms: true
-    evidence: GDPR compliance referenced in the security page FAQ.
-  - id: encryption-in-transit-at-rest
-    conforms: true
-    evidence: >-
-      Security page states data is encrypted end-to-end in transit and at rest
-      on AWS infrastructure with VPC isolation.
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Authorization server at https://social-server.syncly.app declares grant types
+    authorization_code and refresh_token with response type code; the MCP endpoint returns a
+    Bearer challenge on unauthenticated requests.
+- id: oauth2.1-pkce
+  conforms: true
+  evidence: code_challenge_methods_supported is ["S256"] and token_endpoint_auth_methods_supported is ["none"] (public client profile).
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  evidence: GET https://social-server.syncly.app/.well-known/oauth-authorization-server returned HTTP 200 with issuer, authorization_endpoint, token_endpoint, registration_endpoint, revocation_endpoint.
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: GET https://mcp.syncly.app/.well-known/oauth-protected-resource returned HTTP 200 with resource, authorization_servers, scopes_supported, bearer_methods_supported.
+- id: rfc7591-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint https://social-server.syncly.app/oauth/register is advertised; client_id_metadata_document_supported is true.
+- id: rfc7009-token-revocation
+  conforms: true
+  evidence: revocation_endpoint https://social-server.syncly.app/oauth/revoke is advertised in the authorization-server metadata.
+- id: mcp
+  conforms: true
+  evidence: >-
+    https://mcp.syncly.app/mcp speaks MCP Streamable HTTP; JSON-RPC 2.0 requests are answered
+    with JSON-RPC error objects and an MCP-shaped mcp/www_authenticate challenge.
+- id: openapi-3.1
+  conforms: true
+  evidence: https://mcp.syncly.app/openapi.json is a valid OpenAPI 3.1.0 document (4 operations, discovery and health only).
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on both mcp.syncly.app and social-server.syncly.app; OAuth 2.1 only, no OIDC layer.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors are JSON-RPC 2.0 error objects; no application/problem+json anywhere.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on every Syncly host.
+- id: a2a
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on every Syncly host that serves real documents.
+- id: soc2-type-ii
+  conforms: true
+  evidence: >-
+    https://syncly.app/security states "Syncly is SOC 2 Type II compliant, and we enforce that
+    standard with continuous, automated monitoring", plus annual third-party penetration testing.
+- id: gdpr
+  conforms: true
+  evidence: GDPR compliance referenced in the security page FAQ.
+- id: encryption-in-transit-at-rest
+  conforms: true
+  evidence: >-
+    Security page states "All data in Syncly is encrypted in transit and at rest without
+    exceptions", hosted in an AWS VPC with no user-data egress.
 compliance_programs:
-  - name: SOC 2 Type II
-    url: https://syncly.app/security
-  - name: GDPR
-    url: https://syncly.app/security
+- name: SOC 2 Type II
+  url: https://syncly.app/security
+- name: GDPR
+  url: https://syncly.app/security
+trust_center: null
+trust_center_note: >-
+  No trust center. trust.syncly.app does not resolve and there is no trust or compliance portal;
+  the security page at https://syncly.app/security is the whole published posture. No
+  downloadable SOC 2 report or certificate is offered.
+x-evidence:
+- url: https://social-server.syncly.app/.well-known/oauth-authorization-server
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/.well-known/oauth-protected-resource
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://mcp.syncly.app/openapi.json
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://syncly.app/security
+  http_status: 200
+  fetched: '2026-08-13'
