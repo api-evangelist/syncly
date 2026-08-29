@@ -12,6 +12,17 @@ description: >-
   data in plain language. Syncly exposes its data to AI assistants through a
   hosted remote MCP connector (Claude, ChatGPT, Cursor, and more) rather than a
   public REST API.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
