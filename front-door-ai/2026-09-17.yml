@@ -1,0 +1,30 @@
+# Front Door AI Index — syncly — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: syncly
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: syncly.app
+  final_host: syncly.app
+  ownership: own
+  owner: syncly
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 18
+  host_score: 18
+  density: 18.15
+  words: 992
+  tiers:
+    agentic: 6
+    core: 10
+    model: 2
+  ambiguous: 10
+  top_terms:
+    AI: 10
+    intelligence: 9
+    MCP: 6
+    ChatGPT: 1
+    Claude: 1
+    smart: 1

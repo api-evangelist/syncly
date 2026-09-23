@@ -1,0 +1,28 @@
+{
+  "provider": "syncly",
+  "sources": [
+    "_original/syncly-social-mcp-openapi.json"
+  ],
+  "outputs": [
+    "syncly-well-known-api-openapi.yml",
+    "syncly-health-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "syncly-social-mcp-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "syncly-social-mcp-openapi.json: tagged paths GET /.well-known/oauth-protected-resource/mcp -> .well Known",
+    "syncly-social-mcp-openapi.json: tagged paths GET /.well-known/oauth-protected-resource -> .well Known",
+    "syncly-social-mcp-openapi.json: tagged paths GET /.well-known/openai-apps-challenge -> .well Known",
+    "syncly-social-mcp-openapi.json: tagged paths GET /health -> Health",
+    "syncly-social-mcp-openapi.json: declared missing tag: .well Known",
+    "syncly-social-mcp-openapi.json: declared missing tag: Health",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "syncly-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "syncly-well-known-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
