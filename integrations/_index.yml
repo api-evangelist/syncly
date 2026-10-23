@@ -28,31 +28,6 @@
     builder: unknown (not in the directory record)
   status: not-a-workflow
   arazzo: null
-- slug: syncly-gorgias-own
-  label: Gorgias (own)
-  partner: gorgias
-  partner_name: Gorgias (own)
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://www.gorgias.com/apps/syncly
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
-- slug: syncly-zendesk-own
-  label: Zendesk (own)
-  partner: zendesk
-  partner_name: Zendesk (own)
-  category: AI and Bots
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://www.zendesk.com/marketplace/apps/support/1055852/syncly/
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: syncly-500-global
   label: 500 Global
   partner: 500-global
@@ -79,5 +54,43 @@
     detected_by: sweep-accelerator-portfolios.py
     detected: '2026-10-21'
     year: '2022'
+  status: not-a-workflow
+  arazzo: null
+- slug: syncly-gorgias-own
+  label: Gorgias (own)
+  partner: gorgias
+  partner_name: Gorgias (own)
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.gorgias.com/apps/syncly
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: syncly-zendesk-own
+  label: Zendesk (own)
+  partner: zendesk
+  partner_name: Zendesk (own)
+  category: AI and Bots
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.zendesk.com/marketplace/apps/support/1055852/syncly/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: syncly-intercom-own
+  label: Intercom (own)
+  partner: intercom
+  partner_name: Intercom (own)
+  category: Surveys & Feedback
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.intercom.com/app-store/?app_package_code=syncly
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
